@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import locations from '@/data/locations.json'; 
+import locations from '../../data/locations.json'; 
 import Script from 'next/script';
 
 export async function generateStaticParams() {
