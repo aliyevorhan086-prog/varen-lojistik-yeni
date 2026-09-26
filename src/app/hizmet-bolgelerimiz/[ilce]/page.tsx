@@ -9,8 +9,15 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { ilce: string } }): Promise<Metadata> {
-  const location = locations.find((loc) => loc.slug === params.ilce);
+// NEXT.JS 15 UYUMU: Parametreleri Promise (Asenkron) olarak tanımlıyoruz
+type Props = {
+  params: Promise<{ ilce: string }>
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // URL parametresinin çözülmesini bekliyoruz (await)
+  const { ilce } = await params;
+  const location = locations.find((loc) => loc.slug === ilce);
   
   if (!location) {
     return { title: 'Sayfa Bulunamadı' };
@@ -22,11 +29,13 @@ export async function generateMetadata({ params }: { params: { ilce: string } })
   };
 }
 
-export default function LocationPage({ params }: { params: { ilce: string } }) {
-  const location = locations.find((loc) => loc.slug === params.ilce);
+export default async function LocationPage({ params }: Props) {
+  // URL parametresinin çözülmesini bekliyoruz (await)
+  const { ilce } = await params;
+  const location = locations.find((loc) => loc.slug === ilce);
 
   if (!location) {
-    notFound();
+    notFound(); // Hata giderildi, artık buraya düşmeyecek!
   }
 
   // Arama motorları için lokasyona ve posta koduna tam entegre edilmiş hizmet şeması
@@ -70,7 +79,6 @@ export default function LocationPage({ params }: { params: { ilce: string } }) {
       
       {/* Kurumsal Hero (Karşılama) Alanı */}
       <section className="bg-[#1e3a8a] text-white py-20 lg:py-28 px-4 relative overflow-hidden">
-        {/* Opsiyonel: Arka plana hafif şeffaf bir lojistik/tır görseli eklenebilir */}
         <div className="absolute inset-0 opacity-10 bg-black"></div>
         <div className="max-w-6xl mx-auto relative z-10 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
