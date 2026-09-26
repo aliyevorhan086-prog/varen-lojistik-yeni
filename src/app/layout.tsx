@@ -47,10 +47,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   
-  // Google için Yerel İşletme (Local Business) Schema Markup Kodu
+  // Google için Katmanlı (Schema Stacking) Yerel İşletme Markup Kodu
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "MovingCompany",
+    // Algoritmayı domine etmek için 3 farklı otorite tipini birleştirdik
+    "@type": ["MovingCompany", "LogisticsService", "LocalBusiness"],
     "name": "Varen Lojistik",
     "url": "https://varenlojistik.com",
     "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
@@ -76,7 +77,23 @@ export default function RootLayout({
       "opens": "00:00",
       "closes": "23:59"
     },
-    "priceRange": "₺₺"
+    "priceRange": "₺₺",
+    // Yeni Eklenen Katmanlar: Hizmet Bölgesi ve Ticari Teklifler
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Turkey"
+      }
+    ],
+    "makesOffer": {
+      "@type": "Offer",
+      "name": "Kurumsal Taşımacılık ve Şehirlerarası Lojistik",
+      "description": "Profesyonel nakliyat, ofis taşıma ve uçtan uca tedarik zinciri yönetimi.",
+      "priceSpecification": {
+        "@type": "PriceSpecification",
+        "priceCurrency": "TRY"
+      }
+    }
   };
 
   return (
@@ -101,13 +118,13 @@ export default function RootLayout({
         {/* TÜM SAYFALARDA SAĞ ALTTA SABİT DURACAK WHATSAPP BUTONU */}
         <FloatingWhatsApp />
         <a
-  href="tel:+905421804660"
-  className="fixed bottom-6 left-6 z-50 bg-[#1e3a8a] text-white p-3.5 md:p-4 rounded-full shadow-[0_4px_20px_rgba(30,58,138,0.5)] hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-  title="Hemen Arayın"
->
-  <span className="absolute inset-0 rounded-full border-2 border-[#1e3a8a] animate-ping opacity-75"></span>
-  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="relative z-10 group-hover:rotate-12 transition-transform"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-</a>
+          href="tel:+905421804660"
+          className="fixed bottom-6 left-6 z-50 bg-[#1e3a8a] text-white p-3.5 md:p-4 rounded-full shadow-[0_4px_20px_rgba(30,58,138,0.5)] hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+          title="Hemen Arayın"
+        >
+          <span className="absolute inset-0 rounded-full border-2 border-[#1e3a8a] animate-ping opacity-75"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="relative z-10 group-hover:rotate-12 transition-transform"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </a>
       </body>
     </html>
   );
